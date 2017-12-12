@@ -1,0 +1,45 @@
+dir-pagination-controls ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    dir-pagination-controls ul li {
+      float: left;
+    }
+
+    dir-pagination-controls ul li a {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      text-decoration: none;
+    }
+
+    dir-pagination-controls ul li a:hover {
+      color: blue;
+    }
+
+    dir-pagination-controls ul li.disabled a {
+      color: grey;
+    }
+
+    div {
+        margin: 10px auto;
+    }
+    .w3-input {
+      width: 50%;
+    }
+    .sortby {
+        display: inline-block;
+        cursor: pointer;
+    }
+    .sortorder:after {
+      content: '\25b2';   // BLACK UP-POINTING TRIANGLE
+    }
+    .sortorder.reverse:after {
+      content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE
+    }
+    .item_required {
+        color: red;
+    }

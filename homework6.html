@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="w3.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+  <script type="text/javascript" src="dirPagination.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body ng-app="myApp" ng-controller="userCtrl">
+  <div class="w3-container">
+    <h3>Users</h3>
+    <form>
+        <label>Search : <input type="text" ng-model="searchKey"></label>
+    </form>
+    <hr/>
+    <div>
+      <button ng-click="sortBy(null)">Set to unsorted</button>
+      <label>items per page : <input type="number" ng-model="pagesize"></label>
+    </div>
+    <table class="w3-table w3-bordered w3-striped">
+      <tr>
+        <!--th>Id</th-->
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>
+            <span class="sortby" ng-click="sortBy('fName')">First Name</span>
+            <span class="sortorder" ng-show="propertyName === 'fName'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span class="sortby" ng-click="sortBy('lName')">Last Name</span>
+            <span class="sortorder" ng-show="propertyName === 'lName'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span class="sortby" ng-click="sortBy('title')">Title</span>
+            <span class="sortorder" ng-show="propertyName === 'title'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span class="sortby" ng-click="sortBy('sex')">Gender</span>
+            <span class="sortorder" ng-show="propertyName === 'sex'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span class="sortby" ng-click="sortBy('age')">Age</span>
+            <span class="sortorder" ng-show="propertyName === 'age'" ng-class="{reverse: reverse}"></span>
+        </th>
+      </tr>
+      <tr dir-paginate="user in users | orderBy:propertyName:reverse | filter:searchKey |itemsPerPage:pagesize">
+        <!--td>{{user.id}}</td-->
+        <td>
+          <button class="w3-btn w3-ripple" ng-click="editUser(user.id)">&#9998; Edit</button>
+        </td>
+        <td>
+          <button class="w3-btn w3-ripple" ng-click="deleteUser(user.id)">&#10006; Delete</button>
+        </td>
+        <td>{{ user.fName }}</td>
+        <td>{{ user.lName }}</td>
+        <td>{{ user.title }}</td>
+        <td>{{ user.sex }}</td>
+        <td>{{ user.age }}</td>
+      </tr>
+    </table>
+    <br>
+    <dir-pagination-controls
+      template-url="dirPagination.tpl.html"
+      max-size="pagesize"
+      direction-links="true"
+      boundary-links="true">
+    </dir-pagination-controls>
+    <br>
+    <button class="w3-btn w3-green w3-ripple" ng-click="editUser('new')">&#9998; Create New User</button>
+
+    <form ng-hide="hideform" novalidate>
+      <h3 ng-show="edit">Create New User:</h3>
+      <h3 ng-hide="edit">Edit User:</h3>
+        <label>First Name <span class="item_required">*</span></label>
+        <input class="w3-input w3-border" type="text" ng-model="fName" placeholder="First Name" required>
+      <br>
+        <label>Last Name <span class="item_required">*</span></label>
+        <input class="w3-input w3-border" type="text" ng-model="lName" placeholder="Last Name" required>
+      <br>
+      <label>Title</label>
+        <input class="w3-input w3-border" type="text" ng-model="title" placeholder="Title">
+      <br>
+        <label>Gender</label>
+        <input class="w3-input w3-border" type="text" ng-model="sex" placeholder="Gender">
+      <br>
+      <label>Age</label>
+        <input class="w3-input w3-border" type="number" ng-model="age" placeholder="Age">
+      <br>
+        <label>Password <span class="item_required">*</span></label>
+        <input class="w3-input w3-border" type="password" ng-model="passw1" placeholder="Password" required>
+      <br>
+        <label>Repeat <span class="item_required">*</span></label>
+        <input class="w3-input w3-border" type="password" ng-model="passw2" placeholder="Repeat Password" required>
+        <span ng-show="error" class="item_required">password not match</span>
+      <br>
+      <button class="w3-btn w3-green w3-ripple" ng-disabled="error || incomplete" ng-click="saveChanges(userId)">&#10004; Save Changes</button>
+      <button class="w3-btn w3-green w3-ripple" ng-click="hideForm()">&#10064; Cancel</button>
+    </form>
+  </div>
+
+  <script src= "myUsers.js"></script>
+</body>
+</html>

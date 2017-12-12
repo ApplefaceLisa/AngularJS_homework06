@@ -4,7 +4,7 @@
   <title></title>
   <link rel="stylesheet" href="w3.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
-  <script type="text/javascript" src="dirPagination.js"></script>
+  <script type="text/javascript" src="./service/services.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -18,10 +18,11 @@
     <div>
       <button ng-click="sortBy(null)">Set to unsorted</button>
       <label>items per page : <input type="number" ng-model="pagesize"></label>
+      <span>total users : {{totalUsers}}</span>
     </div>
     <table class="w3-table w3-bordered w3-striped">
       <tr>
-        <!--th>Id</th-->
+        <th>Id</th>
         <th>Edit</th>
         <th>Delete</th>
         <th>
@@ -45,8 +46,8 @@
             <span class="sortorder" ng-show="propertyName === 'age'" ng-class="{reverse: reverse}"></span>
         </th>
       </tr>
-      <tr dir-paginate="user in users | orderBy:propertyName:reverse | filter:searchKey |itemsPerPage:pagesize">
-        <!--td>{{user.id}}</td-->
+      <tr ng-repeat="user in items | orderBy:propertyName:reverse | filter:searchKey">
+        <td>{{user.id}}</td>
         <td>
           <button class="w3-btn w3-ripple" ng-click="editUser(user.id)">&#9998; Edit</button>
         </td>
@@ -61,12 +62,24 @@
       </tr>
     </table>
     <br>
-    <dir-pagination-controls
-      template-url="dirPagination.tpl.html"
-      max-size="pagesize"
-      direction-links="true"
-      boundary-links="true">
-    </dir-pagination-controls>
+    <!-- pager -->
+    <ul ng-if="pager.pages.length" class="pagination">
+        <li ng-class="{disabled:pager.currentPage === 1}">
+            <a ng-click="setPage(1)">First</a>
+        </li>
+        <li ng-class="{disabled:pager.currentPage === 1}">
+            <a ng-click="setPage(pager.currentPage - 1)">Previous</a>
+        </li>
+        <li ng-repeat="page in pager.pages" ng-class="{active:pager.currentPage === page}">
+            <a ng-click="setPage(page)">{{page}}</a>
+        </li>
+        <li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+            <a ng-click="setPage(pager.currentPage + 1)">Next</a>
+        </li>
+        <li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+            <a ng-click="setPage(pager.totalPages)">Last</a>
+        </li>
+    </ul>
     <br>
     <button class="w3-btn w3-green w3-ripple" ng-click="editUser('new')">&#9998; Create New User</button>
 

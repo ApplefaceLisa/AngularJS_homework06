@@ -1,10 +1,10 @@
-var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination']);
-myApp.controller('userCtrl', function($scope) {
+var myApp = angular.module('myApp', ["customServices"]);
+myApp.controller('userCtrl', ["$scope", "pagerService", function($scope, pagerService) {
   $scope.fName = '';
   $scope.lName = '';
   $scope.passw1 = '';
   $scope.passw2 = '';
-  $scope.pagesize = 5;
+  $scope.pagesize = 10;
   $scope.users = [
     {id:1, fName:'Hege',  lName:"Pege", title:"Software Engineer", sex:"male", age:22},
     {id:2, fName:'Kim',   lName:"Pim", title:"Principle", sex:"female", age:45},
@@ -26,12 +26,31 @@ myApp.controller('userCtrl', function($scope) {
     {id:18, fName:'Peter', lName:"Pan", title:"blacksmith", sex:"male", age:19 }
   ];
 
+  $scope.totalUsers = $scope.users.length;
   $scope.edit = true;
   $scope.error = false;
   $scope.incomplete = true;
   $scope.hideform = true;
   $scope.userId = "";
   $scope.searchKey = '';
+
+  $scope.pager = {};
+  $scope.currentPage = 1;
+  $scope.setPage = function(page) {
+    console.log("set page", $scope.users.length);
+    if (page < 1 || page > $scope.pager.totalPages) {
+      return;
+    }
+
+    $scope.currentPage = page;
+
+    // get pager object from service
+    $scope.pager = pagerService.getPager($scope.users.length, page);
+
+    // get current page of items
+    $scope.items = $scope.users.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+  };
+  $scope.setPage(1);  // initialization
 
   $scope.editUser = function(id) {
     if (id == 'new') {
@@ -86,15 +105,18 @@ myApp.controller('userCtrl', function($scope) {
     }
     // close form
     $scope.hideform = true;
+    $scope.setPage($scope.currentPage);
   }
 
   $scope.deleteUser = function(id) {
+    console.log("delete ", id);
     $scope.users.splice(id-1, 1);
     // keep id related to index
     for (var i = id-1; i < $scope.users.length; i++) {
       $scope.users[i].id--;
     }
     $scope.totalUsers = $scope.users.length;
+    $scope.setPage($scope.currentPage);
   }
 
   $scope.$watch('passw1',function() {$scope.test();});
@@ -119,4 +141,4 @@ myApp.controller('userCtrl', function($scope) {
     $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
     $scope.propertyName = propertyName;
   };
-});
+}]);

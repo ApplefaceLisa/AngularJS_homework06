@@ -1,27 +1,47 @@
-dir-pagination-controls ul {
+  ul.pagination {
       list-style-type: none;
       margin: 0;
       padding: 0;
       overflow: hidden;
     }
 
-    dir-pagination-controls ul li {
+    ul.pagination li {
+      display: inline-block;
       float: left;
+      border: 1px solid #ddd;
+      color: black;
     }
 
-    dir-pagination-controls ul li a {
+    ul.pagination li:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    ul.pagination li:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    ul.pagination li.active {
+      background-color: #4CAF50;
+      border: 1px solid #4CAF50;
+      color: white;
+    }
+
+    ul.pagination li:hover:not(.active) {
+      background-color: #ddd;
+    }
+
+    ul.pagination li.disabled {
+      color: grey;
+    }
+
+    ul.pagination li a {
       display: block;
       text-align: center;
-      padding: 10px;
+      padding: 8px 16px;
       text-decoration: none;
-    }
-
-    dir-pagination-controls ul li a:hover {
-      color: blue;
-    }
-
-    dir-pagination-controls ul li.disabled a {
-      color: grey;
+      cursor: pointer;
     }
 
     div {

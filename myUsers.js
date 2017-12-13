@@ -45,12 +45,13 @@ myApp.controller('userCtrl', ["$scope", "pagerService", function($scope, pagerSe
     $scope.currentPage = page;
 
     // get pager object from service
-    $scope.pager = pagerService.getPager($scope.users.length, page);
+    $scope.pager = pagerService.getPager($scope.users.length, page, $scope.pagesize);
 
     // get current page of items
     $scope.items = $scope.users.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
   };
   $scope.setPage(1);  // initialization
+  $scope.$watch('pagesize',function() {$scope.setPage(1);});
 
   $scope.editUser = function(id) {
     if (id == 'new') {

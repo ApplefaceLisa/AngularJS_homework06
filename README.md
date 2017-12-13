@@ -1,4 +1,4 @@
-# AngularJS homework #6
+# AngularJS homework #6 - all in one page
 
 Start with a good example at W3Schooles.com:
 

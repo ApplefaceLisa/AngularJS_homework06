@@ -24,23 +24,24 @@ angular.module("customServices", [])
 
         // calculate total pages
         var totalPages = Math.ceil(totalItems / pageSize);
+        var halfSize = Math.floor(pageSize / 2);
 
         var startPage, endPage;
-        if (totalPages <= 10) {
+        if (totalPages <= pageSize) {
             // less than 10 total pages so show all
             startPage = 1;
             endPage = totalPages;
         } else {
             // more than 10 total pages so calculate start and end pages
-            if (currentPage <= 6) {
+            if (currentPage <= halfSize + 1) {
                 startPage = 1;
-                endPage = 10;
-            } else if (currentPage + 5 > totalPages) {
-                startPage = totalPages - 9;
+                endPage = pageSize;
+            } else if (currentPage + halfSize > totalPages) {
+                startPage = totalPages - pageSize + 1;
                 endPage = totalPages;
             } else {
-                startPage = currentPage - 5;
-                endPage = currentPage + 4;
+                startPage = currentPage - halfSize;
+                endPage = currentPage + halfSize - 1;
             }
         }
 
